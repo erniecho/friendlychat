@@ -49,7 +49,7 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     return new Scaffold (
       appBar: new AppBar(
           title: new Text("Friendlychat"),
-          elevation: new Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
+          elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
     ),
       body: new Container(
         child: new Column(
@@ -70,13 +70,7 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             ),
           ],
         ),
-        decoration: Theme.of(context).platform == TargetPlatform.iOS
-        ? new BoxDecoration(
-          border: new Border(
-            top: new BorderSide(color: Colors.grey[200]),
-          ),
-        )
-      : null),
+      ),
     );
   }
 
@@ -93,7 +87,9 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                   _isComposing = text.length > 0;
                 });
               },
-              onSubmitted: _handleSubmitted,
+              onSubmitted: _isComposing
+                          ?_handleSubmitted
+                          :null,
               decoration: new InputDecoration.collapsed(
                   hintText: "Send a message"),
             ),
@@ -114,7 +110,13 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             ),
           ),
         ],                                                        //new
-      ),                                                          //new
+          decoration: Theme.of(context).platform == TargetPlatform.iOS
+              ? new BoxDecoration(
+            border:
+            new Border(top: new BorderSide(color: Colors.grey[200])
+            )
+          )
+              : null),                                                          //new
     );
   }
 
